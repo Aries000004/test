@@ -1,0 +1,37 @@
+抓取淘宝笔记本电脑信息
+难度在于商品url的拼接（需要找到商品的id信息）
+
+
+https://s.taobao.com/search?q='手机'&s=96第三页
+
+.default_0_2_1515059
+&q=%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91
+&spu_title=%E8%8B%B9%E6%9E%9C+MACBOOK+AIR+(MQD32CH%2FA)
+&pspuid=1520794
+
+判断提取目标长度（个数）用循环来获得每个商品相对应的值（注意所以位置的使用[x]）
+for x in range(0,len(title)):
+    # print(x)
+    item['price']= price[x]#价格
+    item['title'] = title[x]#名称
+    item['month_sales'] = month_sales[x]#月成交量
+    # print(item)
+    yield item
+访问商品页面url要加参数，注意顺序，使用urldecode（）转码
+data = {
+        "spm":"a230r.1.0.0.123e57e1zztCi8",
+        "q": keyword,
+        "spu_title": item['title'],
+        "app": "detailproduct",
+        "pspuid": item['pspuid'],
+        "cat": "1101",
+        "from_pos": item['from_pos'],
+        "spu_style":"grid",
+    }
+存储到mongdb数据库
+    if db['articles'].update({'title':item['title']},{'$set':item},True):
+        print("存储到mongdb成功",item['title'])
+    else:
+        print("存储失败",item['title'])
+
+

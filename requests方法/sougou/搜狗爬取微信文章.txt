@@ -1,0 +1,72 @@
+http://weixin.sogou.com/weixin?初始url
+搜索参数全部加上表示真正的搜索url
+	query	风景
+	s_from	input
+	type	2
+	page 2
+
+注意模拟头部信息
+    cookie：没有登录的时候可以不添加，否则报错（UnicodeEncodeError: 'latin-1' codec can't encode character '\u2026' in position 30: ordinal not in range(256)）
+
+
+获取代理和使用代理的方式
+        指定代理端口：
+        proxy_pool_url = "http://127.0.0.1:5000"
+        获取代理：
+        def get_proxy():
+        '''访问代理池获取代理，如果代理池为空则结束'''
+        try:
+            res = requests.get(proxy_pool_url)
+            if res.status_code ==200:
+                return res.text
+            return None
+        except ConnectionError:
+            return None
+
+
+
+        使用代理：
+        要添加次数限制，避免死循环
+        def get_html(url,count=1):
+            '''
+            添加代理来获取网页内容
+            :param url: 网页地址
+            :param count: 次数限制
+            :return: 网页内容
+            '''
+            print("正在爬取得是：",url)
+            print("尝试次数：",count)
+            global proxy
+            if count >= max_count:
+                print("请求太多次啦")
+                return None
+            try:
+                #判断是否从代理池获得代理
+                if proxy:
+                    #代理使用的格式
+                    proxies = {
+                        "http":"http://"+proxy
+                    }
+                    #请求添加上代理
+                    res = requests.get(url,allow_redirects=False,headers=header,proxies=proxies)
+                else:
+                    res = requests.get(url,allow_redirects=False,headers=header)
+                if res.status_code == 200:
+                    return res.text
+                if res.status_code ==302:
+                    print('302')
+                    proxy = get_proxy()
+                    if proxy:
+                        print("正在使用代理：",proxy)
+                        count+=1
+                        return get_html(url)
+                    else:
+                        print("获取代理失败")
+                        return None
+
+            except ConnectionError as e:
+                print('出错啦：',e.args)
+                #递归调用
+                proxy = get_proxy()
+                count+=1
+                return get_html(url,count)
