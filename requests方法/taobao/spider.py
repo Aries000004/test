@@ -28,20 +28,14 @@ def parse_one_page(item,html):
         title = re.findall(pattern,html)
         pattern = re.compile(r',"month_sales":"(.*?)","seller":',re.S)
         month_sales = re.findall(pattern,html)
-        pattern = re.compile(r'"vertical_from_pos":\[(.*?)\],"catdirectForMaidian"',re.S)
+        pattern = re.compile(r'"20_1101.default_0_\d+_\d{7}"',re.S)
         shujus = re.findall(pattern,html)
-        # print(urls[0])
-        # print(type(urls[0]))
-        shuju = shujus[0].split(",")
-        # print(type(urls))
-        for shuju in shuju:
+        for shuju in shujus:
             pspuid = shuju.split('_')[4].replace('"','')
             from_pos = shuju.replace('"','')
             # print(from_pos)
             item['pspuid'] = pspuid#商品的id
             item['from_pos'] = from_pos#商品的代号
-            # print(item)
-            # prinitem
         for x in range(0,len(title)):
             # print(x)
             item['price']= price[x]#价格
