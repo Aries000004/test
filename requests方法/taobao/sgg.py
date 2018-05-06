@@ -1,3 +1,6 @@
+'''
+数据写入本地文件
+'''
 import requests
 import re
 from multiprocessing import Pool
