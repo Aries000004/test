@@ -30,18 +30,17 @@ def parse_one_page(item,html):
         month_sales = re.findall(pattern,html)
         pattern = re.compile(r'"20_1101.default_0_\d+_\d{7}"',re.S)
         shujus = re.findall(pattern,html)
-        for shuju in shujus:
-            pspuid = shuju.split('_')[4].replace('"','')
-            from_pos = shuju.replace('"','')
-            # print(from_pos)
-            item['pspuid'] = pspuid#商品的id
-            item['from_pos'] = from_pos#商品的代号
         for x in range(0,len(title)):
-            # print(x)
+            # 统一性
             item['price']= price[x]#价格
             item['title'] = title[x]#名称
             item['month_sales'] = month_sales[x]#月成交量
             # print(item)
+            pspuid = shuju[x].split('_')[4].replace('"','')
+            from_pos = shuju[x].replace('"','')
+            # print(from_pos)
+            item['pspuid'] = pspuid#商品的id
+            item['from_pos'] = from_pos#商品的代号
             yield item
         # print(infolist)
     except:
