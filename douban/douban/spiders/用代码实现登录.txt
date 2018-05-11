@@ -1,0 +1,17 @@
+https://accounts.douban.com/login提交页面
+在体检页面的源码中查找下面的属性信息（name的属性）
+data={“form_email”：邮箱账号，
+“form_password”：密码，
+“captcha-solution”：验证码，
+“redir”：想要登录成功后跳转的页面url（默认是首页，可以更改），}
+
+
+验证码图片保存到本体，查看后手动输入
+使用下面的保存方式
+先导入 import urllib.request用urlretrieve方法
+	urllib.request.urlretrieve(url, local_path)
+	urllib.request.urlretrieve(图片的url，filename=path)
+
+验证码的xpath路径res.xpath(//img[@id="captcha_image"]/@src).extract()
+使用Scrapy抓取网页时，如果想要预填充或重写像用户名、用户密码这些表单字段,
+可以使用 FormRequest.from_response() 方法实现。需要导入from scrapy import FormRequest
