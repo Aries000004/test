@@ -1,0 +1,5 @@
+url = 'https://www.vmovier.com/hot#rotate-nav'
+
+在主页面中获取单个微电影的链接,访问链接获取源码提取微电影的链接
+单个微电影的详情页的url='https://www.vmovier.com/'+(<li class="clearfix" data-id="53960">)
+微电影的链接(vid='' src='https://openapi-vtom.vmovier.com/video/5AEAD61206B08'>)
