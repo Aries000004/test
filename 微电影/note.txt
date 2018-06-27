@@ -3,3 +3,11 @@ url = 'https://www.vmovier.com/hot#rotate-nav'
 在主页面中获取单个微电影的链接,访问链接获取源码提取微电影的链接
 单个微电影的详情页的url='https://www.vmovier.com/'+(<li class="clearfix" data-id="53960">)
 微电影的链接(vid='' src='https://openapi-vtom.vmovier.com/video/5AEAD61206B08'>)
+
+
+
+下载知乎中的视频
+需要找到真正的视屏地址
+'https://lens.zhihu.com/api/videos/' + str(VideoID)
+调用api获得json数据提取['play_url'],下载文件格式为e0e59b36-364c-11e8-92ed-0242ac112a14.m3u8
+需要使用ffmpeg进行解压,ffmpeg需要自己安装配置,百度即可.
